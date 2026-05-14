@@ -1,0 +1,16 @@
+VERSION WEB 
+PUNTOS FINALIZADOS 
+    -- Modal de los pasos
+        -- Seleccion de fechas
+            -- Añadir nombres y cuantos jugadores 
+                -- Mostrar el ticket   
+                    -- Notificaciones 
+
+PUNTOS QUE QUEDAN POR TERMINAR 
+-- hacer que se pueda descargar el ticket
+-- el usuario pueda unirse al ticket pero el inconveniente que he notado es :
+    puede darse el caso de que el usuario no quiere jugar con la persona que ha rellenado el ticket para unirse
+    -- modificar el scroll del Modal o se puede ocultar
+    
+
+    ESCUCHAR SUGERENCIAS 

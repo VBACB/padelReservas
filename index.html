@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLAY — Reservas</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">PLAY<span>.</span></div>
+      <div class="header-actions">
+        <button
+          class="notif-bell-btn"
+          id="notifBellBtn"
+          onclick="toggleNotifPanel()"
+          title="Notificaciones"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <span class="notif-badge-count" id="notifCount" style="display: none"
+            >0</span
+          >
+        </button>
+        <button class="nav-btn" onclick="openModal()">+ RESERVAR</button>
+      </div>
+    </header>
+
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-header">
+        <span class="notif-panel-title">NOTIFICACIONES</span>
+        <button class="notif-clear-btn" onclick="clearAllNotifs()">
+          Limpiar todo
+        </button>
+      </div>
+      <div class="notif-list" id="notifList">
+        <div class="notif-empty" id="notifEmpty">
+          <span class="notif-empty-icon">🔕</span>
+          <div>Sin notificaciones por ahora</div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="notif-backdrop"
+      id="notifBackdrop"
+      onclick="closeNotifPanel()"
+    >
+  </div>
+
+    <div class="hero">
+      <div class="hero-tag">Reservas Online</div>
+      <h1>RESERVA<br /><span class="line-yellow">TU CAMPO</span></h1>
+      <p>
+        Elige tu día, añade a tus compañeros y descarga tu ticket. Grupos de 2 o
+        4 jugadores.
+      </p>
+      <button class="cta-btn" onclick="openModal()">RESERVAR AHORA</button>
+    </div>
+
+    <div class="vacantes-bar" id="vacantesBar" style="display: none">
+      <div class="dot"></div>
+      <p id="vacantesText"></p>
+    </div>
+
+    <p class="section-title" id="listTitle" style="display: none">
+      MIS RESERVAS
+    </p>
+    <div class="reservas-grid" id="reservasGrid"></div>
+
+    <div class="overlay" id="overlay">
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <h2 id="modalTitle">NUEVA RESERVA</h2>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="steps-indicator">
+            <div class="step-dot active" id="dot1"></div>
+            <div class="step-dot" id="dot2"></div>
+            <div class="step-dot" id="dot3"></div>
+          </div>
+
+          <div class="step-section active" id="step1">
+            <div class="step-label">Paso 1 — Elige una fecha</div>
+            <div class="calendar-nav">
+              <button class="cal-nav-btn" onclick="prevMonth()">←</button>
+              <div class="cal-month-label" id="calMonthLabel"></div>
+              <button class="cal-nav-btn" onclick="nextMonth()">→</button>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+
+            <div style="margin-top: 1.5rem">
+              <div class="step-label">Elige una hora</div>
+              <div class="time-slots" id="timeSlots">
+                <button class="time-slot" onclick="selectTime(this, '08:00h')">
+                  08:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '10:00h')">
+                  10:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '12:00h')">
+                  12:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '14:00h')">
+                  14:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '16:00h')">
+                  16:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '18:00h')">
+                  18:00h
+                </button>
+                <button class="time-slot" onclick="selectTime(this, '20:00h')">
+                  20:00h
+                </button>
+              </div>
+            </div>
+
+            <div class="btn-row">
+              <button
+                class="btn-primary"
+                id="btnStep1Next"
+                onclick="goToStep2()"
+                disabled
+                style="opacity: 0.4"
+              >
+                SIGUIENTE →
+              </button>
+            </div>
+          </div>
+
+          <div class="step-section" id="step2">
+            <div class="step-label">Paso 2 — Jugadores</div>
+            <div class="player-count-selector">
+              <button class="count-option" id="opt2" onclick="selectCount(2)">
+                <span class="big-num">2</span>
+                <div class="sub">Grupo de 2<br />(quedan 2 plazas)</div>
+              </button>
+              <button class="count-option" id="opt4" onclick="selectCount(4)">
+                <span class="big-num">4</span>
+                <div class="sub">Grupo completo<br />(4 jugadores)</div>
+              </button>
+            </div>
+            <div class="name-error-msg" id="nameErrorMsg" style="display: none">
+              ⚠ Los nombres solo pueden contener letras.
+            </div>
+            <div class="player-inputs" id="playerInputs"></div>
+            <div class="btn-row">
+              <button class="btn-secondary" onclick="goToStep1()">
+                ← ATRÁS
+              </button>
+              <button class="btn-primary" onclick="goToStep3()">
+                CONFIRMAR →
+              </button>
+            </div>
+          </div>
+
+          <div class="step-section" id="step3">
+            <div class="step-label">Paso 3 — Reserva confirmada</div>
+            <div class="confirm-ticket" id="ticketPreview"></div>
+            <button class="btn-download" onclick="downloadPDF()">
+              ⬇ DESCARGAR TICKET PDF
+            </button>
+            <button
+              class="btn-primary"
+              style="width: 100%"
+              onclick="finishReservation()"
+            >
+              ✓ FINALIZAR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>PLAY RESERVAS © 2026</footer>
+
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
